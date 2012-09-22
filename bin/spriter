@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Rithis\Spriter\Command\CssCommand;
+use Rithis\Spriter\Command\HtmlCommand;
+use Rithis\Spriter\Command\ImageCommand;
+
+$app = new Symfony\Component\Console\Application('spriter');
+$app->add(new CssCommand());
+$app->add(new HtmlCommand());
+$app->add(new ImageCommand());
+$app->run();

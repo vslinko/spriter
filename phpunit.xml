@@ -1,0 +1,13 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuite>
+        <directory>Test</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist>
+            <file>Spriter.php</file>
+            <file>Sprite.php</file>
+            <directory>Formatter</directory>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,31 @@
+{
+    "name": "rithis/spriter",
+    "homepage": "https://github.com/rithis/spriter",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vyacheslav Slinko",
+            "email": "vyacheslav.slinko@rithis.com",
+            "role": "Founder"
+        }
+    ],
+    "support": {
+        "email": "support@rithis.com",
+        "issues": "https://github.com/rithis/spriter/issues",
+        "wiki": "https://github.com/rithis/spriter/wiki",
+        "source": "https://github.com/rithis/spriter"
+    },
+    "require": {
+        "ext-gd": "*",
+        "imagine/Imagine": "*",
+        "twig/twig": "*",
+        "symfony/console": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Rithis\\Spriter": ""
+        }
+    },
+    "target-dir": "Rithis/Spriter",
+    "bin": ["bin/spriter"]
+}

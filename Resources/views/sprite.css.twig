@@ -1,0 +1,12 @@
+{#
+Copyright 2012 Rithis Studio LLC
+Author Vyacheslav Slinko <vyacheslav.slinko@rithis.com>
+#}
+
+{% for rule in sprite %}
+.{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }} {
+    width: {{ rule.width }}px;
+    height: {{ rule.height }}px;
+    background: url("{{ url }}") -{{ rule.x }}px -{{ rule.y }}px;
+}
+{% endfor %}

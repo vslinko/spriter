@@ -1,0 +1,32 @@
+{#
+Copyright 2012 Rithis Studio LLC
+Author Vyacheslav Slinko <vyacheslav.slinko@rithis.com>
+#}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sprite Test Page</title>
+    <style type="text/css">
+        .icon {
+            background-image: url("data:image/png;base64,{{ sprite.getImage().get('png')|base64_encode }}");
+        }
+    </style>
+    <style type="text/css">
+        {% for rule in sprite %}
+        .{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }} {
+            width: {{ rule.width }}px;
+            height: {{ rule.height }}px;
+            background-position: -{{ rule.x }}px -{{ rule.y }}px;
+        }
+        {% endfor %}
+    </style>
+</head>
+<body>
+
+{% for rule in sprite %}
+<div class="icon {{ rule.file.getBasename('.' ~ rule.file.getExtension()) }}"></div>
+{% endfor %}
+
+</body>
+</html>
