@@ -1,0 +1,24 @@
+{#
+Copyright 2012 Rithis Studio LLC
+Author Vyacheslav Slinko <vyacheslav.slinko@rithis.com>
+#}
+
+.sprite(@url, @width, @height, @x, @y) {
+    width: @width;
+    height: @height;
+    background: url(@url) @x @y;
+}
+{% for rule in sprite %}
+.sprite-{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }}(@width) when (@width > {{ rule.width }}px) {
+    .sprite("{{ url }}", @width, {{ rule.height }}px, (@width - {{ rule.width }}px) / 2 - {{ rule.x }}px, -{{ rule.y }}px);
+}
+.sprite-{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }}(default, @height) when (@height > {{ rule.height }}px) {
+    .sprite("{{ url }}", {{ rule.width }}px, @height, -{{ rule.x }}px, (@height - {{ rule.height }}px) / 2 - {{ rule.y }}px);
+}
+.sprite-{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }}(@width, @height) when (ispixel(@width)) and (@width > {{ rule.width }}px) and (@height > {{ rule.height }}px) {
+    .sprite("{{ url }}", @width, @height, (@width - {{ rule.width }}px) / 2 - {{ rule.x }}px, (@height - {{ rule.height }}px) / 2 - {{ rule.y }}px);
+}
+.sprite-{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }} {
+    .sprite("{{ url }}", {{ rule.width }}px, {{ rule.height }}px, -{{ rule.x }}px, -{{ rule.y }}px);
+}
+{% endfor %}

@@ -7,9 +7,11 @@ use Symfony\Component\Console\Application;
 use Rithis\Spriter\Command\CssCommand;
 use Rithis\Spriter\Command\HtmlCommand;
 use Rithis\Spriter\Command\ImageCommand;
+use Rithis\Spriter\Command\LessCommand;
 
 $app = new Symfony\Component\Console\Application('spriter');
 $app->add(new CssCommand());
 $app->add(new HtmlCommand());
 $app->add(new ImageCommand());
+$app->add(new LessCommand());
 $app->run();

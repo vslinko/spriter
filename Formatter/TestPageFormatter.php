@@ -9,8 +9,6 @@ namespace Rithis\Spriter\Formatter;
 use Twig_Loader_String;
 use Twig_Environment;
 use Twig_Filter_Function;
-use Rithis\Spriter\Sprite;
-use Rithis\Spriter\Exception;
 
 class TestPageFormatter extends TwigFormatter
 {
