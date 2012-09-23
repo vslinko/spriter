@@ -24,6 +24,7 @@ class HtmlCommand extends Command
         $this->addArgument('directory', InputArgument::REQUIRED, 'Directory with images');
         $this->addOption('recursive', 'r', InputOption::VALUE_NONE, 'Scan directory recursively');
         $this->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output file', 'index.html');
+        $this->addOption('padding', 'p', InputOption::VALUE_REQUIRED, 'Image padding', 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -31,6 +32,7 @@ class HtmlCommand extends Command
         $spriter = new Spriter(new Imagine());
 
         $sprite = $spriter->scan($input->getArgument('directory'), $input->getOption('recursive'));
+        $sprite->setPadding($input->getOption('padding'));
 
         $formatter = new TestPageFormatter();
         $html = $formatter->format($sprite);

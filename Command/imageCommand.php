@@ -23,6 +23,7 @@ class ImageCommand extends Command
         $this->addArgument('directory', InputArgument::REQUIRED, 'Directory with images');
         $this->addOption('recursive', 'r', InputOption::VALUE_NONE, 'Scan directory recursively');
         $this->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output file', 'sprite.png');
+        $this->addOption('padding', 'p', InputOption::VALUE_REQUIRED, 'Image padding', 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,6 +31,7 @@ class ImageCommand extends Command
         $spriter = new Spriter(new Imagine());
 
         $spriter->scan($input->getArgument('directory'), $input->getOption('recursive'))
+            ->setPadding($input->getOption('padding'))
             ->getImage()
             ->save($input->getOption('output'));
     }

@@ -20,14 +20,16 @@ class Sprite implements Countable, IteratorAggregate
 {
     private $files;
     private $imagine;
+    private $padding;
     private $aggregated;
     private $width;
     private $height;
 
-    public function __construct(Iterator $files, ImagineInterface $imagine)
+    public function __construct(Iterator $files, ImagineInterface $imagine, $padding = 10)
     {
         $this->files = $files;
         $this->imagine = $imagine;
+        $this->padding = $padding;
     }
 
     private function aggregate()
@@ -36,40 +38,47 @@ class Sprite implements Countable, IteratorAggregate
             return $this->aggregated;
         }
 
-        $images = $this->prepareImages();
+        list($images, $totalHeight) = $this->prepareImages();
 
         if (count($images) == 0) {
             return $this->aggregated = array();
         }
 
-        $biggest = array_shift($images);
-
-        $this->height = $biggest['height'];
-        $x = $biggest['width'];
+        $x = 0;
         $y = 0;
         $maxColumnWidth = 0;
 
         foreach ($images as $key => $image) {
-            if ($y + $image['height'] > $this->height) {
+            if ($x == 0) {
+                if ($this->height > $totalHeight / 4) {
+                    $x += $maxColumnWidth;
+                    $y = 0;
+                    $image['x'] = $x;
+                    $image['y'] = $y;
+                } else {
+                    $image['x'] = $x;
+                    $image['y'] = $y;
+                    $this->height += $image['height'] + $this->padding;
+                    $maxColumnWidth = max($maxColumnWidth, $image['width'] + $this->padding);
+                }
+            } else if ($y + $image['height'] + $this->padding > $this->height) {
                 $x += $maxColumnWidth;
                 $y = 0;
-                $maxColumnWidth = $image['width'];
+                $maxColumnWidth = $image['width'] + $this->padding;
                 $image['x'] = $x;
                 $image['y'] = $y;
             } else {
                 $image['x'] = $x;
                 $image['y'] = $y;
-                $maxColumnWidth = max($maxColumnWidth, $image['width']);
+                $maxColumnWidth = max($maxColumnWidth, $image['width'] + $this->padding);
             }
 
-            $y += $image['height'];
+            $y += $image['height'] + $this->padding;
 
             $images[$key] = $image;
         }
 
         $this->width = $x + $maxColumnWidth;
-
-        array_unshift($images, $biggest);
 
         return $this->aggregated = $images;
     }
@@ -77,6 +86,8 @@ class Sprite implements Countable, IteratorAggregate
     private function prepareImages()
     {
         $items = array();
+
+        $height = 0;
 
         foreach ($this->files as $file) {
             if (!$file instanceof SplFileInfo) {
@@ -88,6 +99,8 @@ class Sprite implements Countable, IteratorAggregate
             } catch (\Imagine\Exception\InvalidArgumentException $e) {
                 throw new Exception(sprintf('File "%s" provided by iterator is not valid image file', $file->getRealPath()), 0, $e);
             }
+
+            $height += $image->getSize()->getHeight();
 
             $items[] = array(
                 'x' => 0,
@@ -103,7 +116,19 @@ class Sprite implements Countable, IteratorAggregate
             return $a['height'] < $b['height'];
         });
 
-        return array_values($items);
+        return array(array_values($items), $height);
+    }
+
+    public function setPadding($padding)
+    {
+        $this->padding = $padding;
+
+        return $this;
+    }
+
+    public function getPadding()
+    {
+        return $this->padding;
     }
 
     public function getWidth()

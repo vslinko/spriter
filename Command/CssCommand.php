@@ -27,6 +27,7 @@ class CssCommand extends Command
         $this->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output directory', '.');
         $this->addOption('sprite-name', 's', InputOption::VALUE_REQUIRED, 'Sprite file name', 'sprite.png');
         $this->addOption('css-name', 'c', InputOption::VALUE_REQUIRED, 'CSS file name', 'sprite.css');
+        $this->addOption('padding', 'p', InputOption::VALUE_REQUIRED, 'Image padding', 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -34,6 +35,7 @@ class CssCommand extends Command
         $spriter = new Spriter(new Imagine());
 
         $sprite = $spriter->scan($input->getArgument('directory'), $input->getOption('recursive'));
+        $sprite->setPadding($input->getOption('padding'));
 
         $url = $input->getOption('url') ?: $input->getOption('sprite-name');
 
