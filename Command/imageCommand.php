@@ -22,7 +22,7 @@ class ImageCommand extends Command
         $this->setDescription('Make sprite image');
         $this->addArgument('directory', InputArgument::REQUIRED, 'Directory with images');
         $this->addOption('recursive', 'r', InputOption::VALUE_NONE, 'Scan directory recursively');
-        $this->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output file', 'sprite.png');
+        $this->addOption('sprite-path', 's', InputOption::VALUE_REQUIRED, 'Path where sprite must be saved', 'sprite.png');
         $this->addOption('padding', 'p', InputOption::VALUE_REQUIRED, 'Image padding', 10);
     }
 
@@ -33,6 +33,6 @@ class ImageCommand extends Command
         $spriter->scan($input->getArgument('directory'), $input->getOption('recursive'))
             ->setPadding($input->getOption('padding'))
             ->getImage()
-            ->save($input->getOption('output'));
+            ->save($input->getOption('sprite-path'));
     }
 }

@@ -23,10 +23,9 @@ class CssCommand extends Command
         $this->setDescription('Make sprite and css file');
         $this->addArgument('directory', InputArgument::REQUIRED, 'Directory with images');
         $this->addOption('recursive', 'r', InputOption::VALUE_NONE, 'Scan directory recursively');
-        $this->addOption('url', 'u', InputOption::VALUE_REQUIRED, 'URL with sprite');
-        $this->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output directory', '.');
-        $this->addOption('sprite-name', 's', InputOption::VALUE_REQUIRED, 'Sprite file name', 'sprite.png');
-        $this->addOption('css-name', 'c', InputOption::VALUE_REQUIRED, 'CSS file name', 'sprite.css');
+        $this->addOption('url', 'u', InputOption::VALUE_REQUIRED, 'URL with sprite', 'sprite.png');
+        $this->addOption('sprite-path', 's', InputOption::VALUE_REQUIRED, 'Path where sprite must be saved', 'sprite.png');
+        $this->addOption('css-path', 'c', InputOption::VALUE_REQUIRED, 'Path where stylesheet must be saved', 'sprite.css');
         $this->addOption('padding', 'p', InputOption::VALUE_REQUIRED, 'Image padding', 10);
     }
 
@@ -37,13 +36,11 @@ class CssCommand extends Command
         $sprite = $spriter->scan($input->getArgument('directory'), $input->getOption('recursive'));
         $sprite->setPadding($input->getOption('padding'));
 
-        $url = $input->getOption('url') ?: $input->getOption('sprite-name');
-
-        $formatter = new CssFormatter($url);
+        $formatter = new CssFormatter($input->getOption('url'));
         $css = $formatter->format($sprite);
 
-        $sprite->getImage()->save(sprintf('%s/%s', $input->getOption('output'), $input->getOption('sprite-name')));
+        $sprite->getImage()->save($input->getOption('sprite-path'));
 
-        file_put_contents(sprintf('%s/%s', $input->getOption('output'), $input->getOption('css-name')), $css);
+        file_put_contents($input->getOption('css-path'), $css);
     }
 }

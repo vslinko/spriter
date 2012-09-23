@@ -23,7 +23,7 @@ class HtmlCommand extends Command
         $this->setDescription('Make html page with sprite');
         $this->addArgument('directory', InputArgument::REQUIRED, 'Directory with images');
         $this->addOption('recursive', 'r', InputOption::VALUE_NONE, 'Scan directory recursively');
-        $this->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output file', 'index.html');
+        $this->addOption('html-path', 't', InputOption::VALUE_REQUIRED, 'Path where html page must be saved', 'sprite.html');
         $this->addOption('padding', 'p', InputOption::VALUE_REQUIRED, 'Image padding', 10);
     }
 
@@ -37,6 +37,6 @@ class HtmlCommand extends Command
         $formatter = new TestPageFormatter();
         $html = $formatter->format($sprite);
 
-        file_put_contents($input->getOption('output'), $html);
+        file_put_contents($input->getOption('html-path'), $html);
     }
 }
