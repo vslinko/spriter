@@ -11,12 +11,13 @@ use Twig_Loader_String;
 
 class CssFormatter extends TwigFormatter
 {
-    public function __construct($url)
+    public function __construct($url, $prefix = '')
     {
         $template = file_get_contents(__DIR__ . '/../Resources/views/sprite.css.twig');
 
         parent::__construct(new Twig_Environment(new Twig_Loader_String()), $template, array(
             'url' => $url,
+            'prefix' => $prefix,
         ));
     }
 }

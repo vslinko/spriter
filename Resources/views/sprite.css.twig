@@ -4,7 +4,8 @@ Author Vyacheslav Slinko <vyacheslav.slinko@rithis.com>
 #}
 
 {% for rule in sprite %}
-.{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }} {
+.{{ prefix }}{{ rule.file.getBasename('.' ~ rule.file.getExtension()) }} {
+    display: inline-block;
     width: {{ rule.width }}px;
     height: {{ rule.height }}px;
     background: url("{{ url }}") -{{ rule.x }}px -{{ rule.y }}px;

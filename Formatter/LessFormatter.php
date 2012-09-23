@@ -11,12 +11,13 @@ use Twig_Loader_String;
 
 class LessFormatter extends TwigFormatter
 {
-    public function __construct($url = null)
+    public function __construct($url, $prefix = '')
     {
         $template = file_get_contents(__DIR__ . '/../Resources/views/sprite.less.twig');
 
         parent::__construct(new Twig_Environment(new Twig_Loader_String()), $template, array(
             'url' => $url,
+            'prefix' => $prefix,
         ));
     }
 }
